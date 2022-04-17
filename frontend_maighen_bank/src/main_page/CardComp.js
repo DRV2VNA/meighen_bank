@@ -39,12 +39,12 @@ class MPCard extends Component {
                     <div className="face">
                         <div className="head">
                             <div className="title">
-                                Credit card
+                                Ваша карта
                             </div>
                             {this.choseLogo()}
                             </div>
                         <div className="main">
-                            <div className="number-title">Card number:</div>
+                            <div className="number-title">Номер карты:</div>
                             <div className="number">XXXX-XXXX-XXXX-XXXX</div>
                         </div>
                         <div className="dates">

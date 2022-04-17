@@ -6,15 +6,19 @@ import {BrowserRouter as Router, Routes, Route, Switch, BrowserRouter} from "rea
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ErrorPage from "./ErrorPage";
 import MainPage from "./main_page/MainPage";
+import SignUP from "./login_component/SignUP";
+import Login from "./login_component/Login";
 
 class App extends Component {
     render()
     {
         return (
-
             <BrowserRouter>
                 <Switch>
                     <Route exact path={'/'} component={MainPage}/>
+
+                    {/*<Route exact path={'/signup'} component={SignUP}/>*/}
+                    {/*<Route exact path={'/login'} component={Login}/>*/}
 
                     <Route>
                         <ErrorPage code={404} description={'Страница не найдена.'}/>

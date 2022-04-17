@@ -1,18 +1,92 @@
 import React, {Component} from 'react';
 import './header.css'
+import Cookies from "universal-cookie/es6";
+import AuthElement from "../auth_element/AuthElement";
+import SignUP from "../login_component/SignUP";
+import Login from "../login_component/Login";
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
             code: props.code ? props.code : '999',
-            description: props.description ? props.description : 'Unknown error'
+            description: props.description ? props.description : 'Unknown error',
+            logintab: "pabs d-flex justify-content-center align-items-center dni",
+            signuptab: "pabs d-flex justify-content-center align-items-center dni",
+            statecur: 0 // 0 - page, 1 - login, 2 - signup
+        }
+
+        this.logout = this.logout.bind(this);
+        this.showLogin = this.showLogin.bind(this);
+        this.showSignUp = this.showSignUp.bind(this);
+        this.close = this.close.bind(this);
+    }
+
+    logout() {
+        const cookies = new Cookies();
+        cookies.remove('accessToken');
+        cookies.remove('refreshToken');
+        cookies.remove('username');
+        window.location.reload();
+    }
+
+    checkAuth() {
+        const cookies = new Cookies();
+        let a = cookies.get('accessToken');
+
+        if (a) {
+            return <div><a href="/cabinet" className="ma">
+                <button className="button-27" role="button">В кабинет -></button>
+            </a><button className="button-27" role="button" onClick={this.logout}>Выйти</button></div>;
+        } else {
+            return <div><button className="button-27" role="button" onClick={this.showLogin}>Войти</button>
+                <button className="button-27" role="button" onClick={this.showSignUp}>Зарегистрироваться</button></div>
+            ;
         }
     }
 
+    showLogin() {
+        if (this.state.statecur == 0) {
+            this.setState({
+                logintab : "pabs d-flex justify-content-center align-items-center",
+                signuptab: "pabs d-flex justify-content-center align-items-center dni"
+            });
+        } else if (this.state.statecur == 2) {
+            this.setState({
+                logintab : "pabs d-flex justify-content-center align-items-center",
+                signuptab: "pabs d-flex justify-content-center align-items-center dni"
+            });
+        }
+
+        this.setState({statecur: 1});
+    }
+
+    showSignUp() {
+        if (this.state.statecur == 0) {
+            this.setState({
+                logintab : "pabs d-flex justify-content-center align-items-center dni",
+                signuptab: "pabs d-flex justify-content-center align-items-center"
+            });
+        } else if (this.state.statecur == 1) {
+            this.setState({
+                logintab : "pabs d-flex justify-content-center align-items-center dni",
+                signuptab: "pabs d-flex justify-content-center align-items-center"
+            });
+        }
+
+        this.setState({statecur: 2});
+    }
+
+    close() {
+        this.setState({
+            logintab : "pabs d-flex justify-content-center align-items-center dni",
+            signuptab: "pabs d-flex justify-content-center align-items-center dni",
+            statecur: 0
+        });
+    }
 
     render() {
-        const {code, description} = this.state;
+        const {code, description, logintab, signuptab} = this.state;
         return (
 
             <header>
@@ -50,8 +124,7 @@ class Header extends Component {
                                     </a>
                                 </li>
 
-                                <button className="button-27" role="button">Войти</button>
-                                <button className="button-27" role="button">Зарегистрироваться</button>
+                                {this.checkAuth()}
                             </ul>
 
 
@@ -59,7 +132,13 @@ class Header extends Component {
                     </div>
                 </div>
 
+                <div className={logintab}>
+                    <Login close={this.close} signuphnd={this.showSignUp}/>
+                </div>
 
+                <div className={signuptab}>
+                    <SignUP close={this.close} loginhnd={this.showLogin} />
+                </div>
             </header>
         );
     }
