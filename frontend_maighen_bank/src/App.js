@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Routes, Route, Switch, BrowserRouter} from "rea
 // import Layout from '../containers/Layout'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ErrorPage from "./ErrorPage";
+import MainPage from "./main_page/MainPage";
 
 class App extends Component {
     render()
@@ -13,7 +14,7 @@ class App extends Component {
 
             <BrowserRouter>
                 <Switch>
-                    {/*<Route exact path={'/'} component={MainPage}/>*/}
+                    <Route exact path={'/'} component={MainPage}/>
 
                     <Route>
                         <ErrorPage code={404} description={'Страница не найдена.'}/>
