@@ -14,14 +14,14 @@
 .body {
     position: relative;
     /*width: 720px;*/
-    /*height: 440px;*/
+    height: 840px;
     margin: 20px auto;
     border: 1px solid #dddd;
     border-radius: 18px;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     min-height: 650px;
-    min-width: 900px;
+    /*min-width: 900px;*/
     background-color: white;
 }
 
@@ -37,7 +37,8 @@
 
 .box-1,
 .box-2 {
-    width: 50%
+    width: 50%;
+    height: 100%;
 }
 
 .h-1 {
