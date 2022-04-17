@@ -4,6 +4,7 @@ import Cookies from "universal-cookie/es6";
 import AuthElement from "../auth_element/AuthElement";
 import SignUP from "../login_component/SignUP";
 import Login from "../login_component/Login";
+import {Slide} from "@material-ui/core";
 
 class Header extends Component {
     constructor(props) {
@@ -11,9 +12,11 @@ class Header extends Component {
         this.state = {
             code: props.code ? props.code : '999',
             description: props.description ? props.description : 'Unknown error',
-            logintab: "pabs d-flex justify-content-center align-items-center dni",
-            signuptab: "pabs d-flex justify-content-center align-items-center dni",
-            statecur: 0 // 0 - page, 1 - login, 2 - signup
+            // logintab: "pabs d-flex justify-content-center align-items-center",
+            // signuptab: "pabs d-flex justify-content-center align-items-center dni",
+            statecur: 0, // 0 - page, 1 - login, 2 - signup,
+            logintab: false,
+            signuptab: false
         }
 
         this.logout = this.logout.bind(this);
@@ -46,43 +49,15 @@ class Header extends Component {
     }
 
     showLogin() {
-        if (this.state.statecur == 0) {
-            this.setState({
-                logintab : "pabs d-flex justify-content-center align-items-center",
-                signuptab: "pabs d-flex justify-content-center align-items-center dni"
-            });
-        } else if (this.state.statecur == 2) {
-            this.setState({
-                logintab : "pabs d-flex justify-content-center align-items-center",
-                signuptab: "pabs d-flex justify-content-center align-items-center dni"
-            });
-        }
-
-        this.setState({statecur: 1});
+        this.setState({logintab:true, signuptab: false})
     }
 
     showSignUp() {
-        if (this.state.statecur == 0) {
-            this.setState({
-                logintab : "pabs d-flex justify-content-center align-items-center dni",
-                signuptab: "pabs d-flex justify-content-center align-items-center"
-            });
-        } else if (this.state.statecur == 1) {
-            this.setState({
-                logintab : "pabs d-flex justify-content-center align-items-center dni",
-                signuptab: "pabs d-flex justify-content-center align-items-center"
-            });
-        }
-
-        this.setState({statecur: 2});
+        this.setState({logintab:false, signuptab: true});
     }
 
     close() {
-        this.setState({
-            logintab : "pabs d-flex justify-content-center align-items-center dni",
-            signuptab: "pabs d-flex justify-content-center align-items-center dni",
-            statecur: 0
-        });
+        this.setState({logintab:false, signuptab: false});
     }
 
     render() {
@@ -132,13 +107,17 @@ class Header extends Component {
                     </div>
                 </div>
 
-                <div className={logintab}>
-                    <Login close={this.close} signuphnd={this.showSignUp}/>
-                </div>
+                <Slide direction="down" in={logintab} mountOnEnter unmountOnExit>
+                    <div className="pabs d-flex justify-content-center align-items-center">
+                        <Login close={this.close} signuphnd={this.showSignUp}/>
+                    </div>
+                </Slide>
 
-                <div className={signuptab}>
-                    <SignUP close={this.close} loginhnd={this.showLogin} />
-                </div>
+                <Slide direction="down" in={signuptab} mountOnEnter unmountOnExit>
+                    <div className="pabs d-flex justify-content-center align-items-center">
+                        <SignUP close={this.close} loginhnd={this.showLogin} />
+                    </div>
+                </Slide>
             </header>
         );
     }
