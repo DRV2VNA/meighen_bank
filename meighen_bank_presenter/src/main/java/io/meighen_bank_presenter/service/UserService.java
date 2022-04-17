@@ -35,7 +35,8 @@ public class UserService {
     /**
      * The B crypt password encoder.
      */
-    public BCryptPasswordEncoder bCryptPasswordEncoder;
+    //@Autowired
+    public BCryptPasswordEncoder bCryptPasswordEncoder = passwordEncoder();
 
     /**
      * The Mail service.

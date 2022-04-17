@@ -1,0 +1,63 @@
+.card1 {
+/*    Ok*/
+}
+
+.card2 {
+    /*margin-top: -120px;*/
+    /*margin-left: 40px;*/
+    /*transform: rotate(25deg);*/
+
+    margin-top: -160px;
+    margin-left: 20px;
+    transition: transform 250ms;
+}
+
+.cards_sec:hover > .card2 {
+    margin-top: -120px;
+    margin-left: 40px;
+    /*transform: rotate(25deg);*/
+    -webkit-transform: rotate(25deg);
+    -ms-transform: rotate(25deg);
+    transform: rotate(25deg);
+}
+
+.cards_sec:hover > .card1 {
+}
+
+@keyframes slidein {
+    from {
+        margin-top: -160px;
+        margin-left: 20px;
+        transform: rotate(5deg);
+    }
+
+    to {
+        margin-top: -120px;
+        margin-left: 40px;
+        transform: rotate(25deg);
+    }
+}
+
+.mb_txt {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.m_txt {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.mto {
+    margin-bottom: 30px;
+    height: 300px;
+}
+
+.pabs {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    top: 0;;
+}
