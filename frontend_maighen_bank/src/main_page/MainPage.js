@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Header from "../header/Header";
 
 class MainPage extends Component {
     constructor(props) {
@@ -12,13 +13,16 @@ class MainPage extends Component {
     render() {
         const {code, description} = this.state;
         return (
-            <div className='page-wrap d-flex flex-row align-items-center pt-5'>
-                <div className='container'>
-                    <div className='row justify-content-center'>
-                        MainPage
-                    </div>
-                    <div className='row justify-content-center'>
+            <div>
+                <Header />
+                <div className='page-wrap d-flex flex-row align-items-center pt-5'>
+                    <div className='container'>
+                        <div className='row justify-content-center'>
+                            MainPage
+                        </div>
+                        <div className='row justify-content-center'>
 
+                        </div>
                     </div>
                 </div>
             </div>
