@@ -3,6 +3,7 @@ package io.meighen_bank_presenter.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,18 +15,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Card extends BaseEntity {
-    protected int expYear;
-    protected Date expDate;
-    protected String programId;
-    protected String card_id;
-    protected String scheme;
-    protected String accountId;
-    protected String countryCode;
+    protected String card_number;
     protected Date created;
-    protected boolean live;
-    protected String lastNumbers;
-    protected int expMonth;
     protected Date updated;
-    protected String firstNumbers;
-    protected String type;
+    protected int cvv;
+    protected Date expDate;
+    protected int expYear;
+    protected int expMonth;
+    protected int expDay;
+    protected String lastFour;
+
+    protected boolean isLithicCard;
+    protected boolean isOtherCard;
+    protected String cardIssuerName;
+
+    @OneToOne
+    protected CardStatus cardStatus;
+
+    @OneToOne
+    protected LithicCardDetails lithicCardDetails;
+
+    @OneToOne
+    protected OtherCardDetail otherCardDetail;
 }
