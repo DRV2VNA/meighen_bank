@@ -87,6 +87,9 @@ public class User extends BaseEntity{
     @Column(name = "user_profile_image_url", nullable = true)
     protected String userProfileImageUrl;
 
+    @OneToMany
+    protected List<Card> cards;
+
     /**
      * Instantiates a new User.
      *

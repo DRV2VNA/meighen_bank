@@ -15,3 +15,7 @@ INSERT INTO users (id, first_name, second_name, last_name, username, email, pass
 (5, 'Ксения', 'Владимировна', 'Вдовина', 'vdovina.k.v', 'vorobievdd@rosatom.ru', '$2y$12$6G7v5bApu2ZRH7W.HV8NHuJs0W4pDQ3xMmXZSW1k03Dfvzk78lkaO', '+7000', 1, 'https://iconorbit.com/icons/256-watermark/1611201511385554301-Girl%20User.jpg'),
 (6, 'Михаил', 'Владиславович', 'Голованов', 'golovanov', 'golovanov.m.v@rosatom.ru', '$2y$12$6G7v5bApu2ZRH7W.HV8NHuJs0W4pDQ3xMmXZSW1k03Dfvzk78lkaO', '+7000', 2, ''),
 (7, 'Иван', 'Иванович', 'Ивванов', 'ivanov', 'ivanov.m.v@rosatom.ru', '$2y$12$6G7v5bApu2ZRH7W.HV8NHuJs0W4pDQ3xMmXZSW1k03Dfvzk78lkaO', '+7000', 1, '');
+
+INSERT INTO cards
+(id, account_id, card_id, country_code, created, exp_date, exp_month, exp_year, first_numbers, last_numbers, live, program_id, scheme, "type", updated)
+VALUES(1, '6fe0e928-fcf1-495e-8238-3273919dc74d', '6909b78e-6bb1-4f80-8b79-0cba57853546', 'GBR', '2022-04-17 14:56:20.262', '2025-10-31 23:59:59.999', 10, 2025, '444400', '4222', true, 'be7636b0-bd86-4256-9e79-63db8759f101', 'visa', 'visa', '2022-04-17 14:56:20.262');

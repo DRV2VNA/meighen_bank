@@ -213,4 +213,6 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> {throw new NotFoundException("Not found!");
         });
     }
+
+    public List<Card>
 }
