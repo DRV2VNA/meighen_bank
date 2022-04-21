@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.meighen_bank_operationer.model.KafkaMsg;
 import io.meighen_bank_operationer.service.CardService;
+import io.meighen_bank_operationer.service.banking.BankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,11 @@ public class CardsConsumerService {
     }
 
     private void callOperation(Map<String, String> message) throws IOException, ParseException {
-        if (Objects.equals(message.get("operation"), "create_card")) {
+        String operation = message.get("operation");
+        if (Objects.equals(operation, "create_card")) {
             cardService.createCard(message.get("email"));
+        } if (Objects.equals(operation, "change_card_status")) {
+            cardService.changeCardStatus(Integer.parseInt(message.get("card_id")), message.get("status"));
         } else {
             System.out.println("Error! Not correct message. Reason: no operation known! " + message);
         }

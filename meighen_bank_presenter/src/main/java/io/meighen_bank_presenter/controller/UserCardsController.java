@@ -29,5 +29,6 @@ public class UserCardsController {
     public ResponseEntity<?> getCardsByUser() {
         User u = getAuthentificatedUser();
 
+        return ResponseEntity.ok(u.getCards());
     }
 }

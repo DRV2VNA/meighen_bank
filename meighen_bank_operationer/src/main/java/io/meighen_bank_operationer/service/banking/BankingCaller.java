@@ -18,6 +18,14 @@ public class BankingCaller{
     public String createLithicCard() throws IOException, ParseException {
         return factory.createLithicService().createCard();
     }
+
+    public void changeCardStatus(Card card, String status) throws IOException {
+        factory.createBankingService(card).changeCardState(card, status);
+    }
+
+    public void updateCardBalance(Card card) {
+        factory.createBankingService(card).getCardsDetail(card.getLithicCardDetails().getToken());
+    }
 //    public Pizza orderPizza(String type) {
 //        Pizza pizza;
 //

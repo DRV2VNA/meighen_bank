@@ -20,4 +20,10 @@ public class restfull {
         cardService.createCard(email);
         return ResponseEntity.ok("ok");
     }
+
+    @GetMapping("/update/balance")
+    public ResponseEntity<?> updateCardBalance(@RequestParam Long card_id ) {
+
+        return ResponseEntity.ok("{ \"state\":\"ok\"");
+    }
 }

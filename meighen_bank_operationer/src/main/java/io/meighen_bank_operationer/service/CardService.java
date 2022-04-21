@@ -71,4 +71,14 @@ public class CardService {
         user.getCards().add(card);
         userRepository.save(user);
     }
+
+    public void changeCardStatus(int cardId, String status) throws IOException {
+        Card card = cardRepository.findById((long) cardId).orElseThrow(() -> {return new RuntimeException("Card not found!");});
+        bankingCaller.changeCardStatus(card, status);
+    }
+
+    public void updateCardBalance(Long card_id) {
+        Card card = cardRepository.findById(card_id).orElseThrow(() -> {return new RuntimeException("Card not found!");});
+        bankingCaller.updateCardBalance(card);
+    }
 }

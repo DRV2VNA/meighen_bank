@@ -8,4 +8,6 @@ import okhttp3.Response;
 
 public interface BankingService {
     public String createCard() throws IOException, ParseException;
+    public void changeCardState(Card card, String state) throws IOException;
+    public String getCardsDetail(String cardToken) throws IOException;
 }
