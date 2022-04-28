@@ -35,6 +35,7 @@ public class CardService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> {return new RuntimeException("User with email: " + email + " not found!");});
 
         String response = bankingCaller.createLithicCard();
+        System.out.println(response);
 
         //System.out.println(response);
         JSONObject obj = new JSONObject(response);
@@ -77,7 +78,7 @@ public class CardService {
         bankingCaller.changeCardStatus(card, status);
     }
 
-    public void updateCardBalance(Long card_id) {
+    public void updateCardBalance(Long card_id) throws IOException {
         Card card = cardRepository.findById(card_id).orElseThrow(() -> {return new RuntimeException("Card not found!");});
         bankingCaller.updateCardBalance(card);
     }

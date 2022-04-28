@@ -12,13 +12,15 @@ import io.meighen_bank_operationer.entity.LithicCardDetails;
 import okhttp3.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.stereotype.Service;
+@Service
 public class LithicBanking implements BankingService {
-    @Value("${lithic.api-key}")
+    @Value("${lithicapikey}")
     private String apiKey;
 
     public String createCard() throws IOException, ParseException {
         OkHttpClient client = new OkHttpClient();
+        System.out.println(apiKey);
 
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{\"type\":\"DIGITAL_WALLET\",\"memo\":\"New Card\",\"spend_limit\":0,\"spend_limit_duration\":\"TRANSACTION\",\"state\":\"OPEN\"}");

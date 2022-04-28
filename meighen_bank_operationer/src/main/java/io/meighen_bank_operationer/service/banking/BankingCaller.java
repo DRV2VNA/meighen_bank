@@ -23,7 +23,7 @@ public class BankingCaller{
         factory.createBankingService(card).changeCardState(card, status);
     }
 
-    public void updateCardBalance(Card card) {
+    public void updateCardBalance(Card card) throws IOException {
         factory.createBankingService(card).getCardsDetail(card.getLithicCardDetails().getToken());
     }
 //    public Pizza orderPizza(String type) {
