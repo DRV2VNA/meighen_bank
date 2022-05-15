@@ -8,6 +8,7 @@ import ErrorPage from "./ErrorPage";
 import MainPage from "./main_page/MainPage";
 import SignUP from "./login_component/SignUP";
 import Login from "./login_component/Login";
+import CardPage from "./card_page_component/CardPage";
 
 class App extends Component {
     render()
@@ -19,6 +20,8 @@ class App extends Component {
 
                     {/*<Route exact path={'/signup'} component={SignUP}/>*/}
                     {/*<Route exact path={'/login'} component={Login}/>*/}
+
+                    <Route exact path={'/cabinet'} component={CardPage}/>
 
                     <Route>
                         <ErrorPage code={404} description={'Страница не найдена.'}/>

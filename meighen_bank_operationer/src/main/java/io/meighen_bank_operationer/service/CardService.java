@@ -50,7 +50,8 @@ public class CardService {
         card.setExpYear(obj.getInt("exp_year"));
         card.setExpMonth(obj.getInt("exp_month"));
         card.setExpDay(01);
-        card.setLastFour(obj.getJSONObject("funding").getString("last_four"));
+        System.out.println(obj.getString("last_four"));
+        card.setLastFour(obj.getString("last_four"));
         card.setCardIssuerName("Lithic");
         card.setLithicCard(true);
         card.setOtherCard(false);

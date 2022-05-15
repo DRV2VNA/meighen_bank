@@ -15,4 +15,9 @@ public class MainApiController {
         return ResponseEntity.ok(new OkResponse("Pong"));
     }
 
+    @GetMapping("/private/check_auth")
+    public ResponseEntity<?> checkAuth() {
+        return ResponseEntity.ok(new OkResponse("Pong"));
+    }
+
 }

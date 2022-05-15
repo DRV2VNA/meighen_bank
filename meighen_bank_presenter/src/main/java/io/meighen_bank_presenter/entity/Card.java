@@ -29,7 +29,7 @@ public class Card extends BaseEntity {
     protected boolean isOtherCard;
     protected String cardIssuerName;
 
-    protected int balance;
+    protected double balance;
 
     @OneToOne
     protected CardStatus cardStatus;

@@ -1,30 +1,23 @@
 package io.meighen_bank_presenter.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import io.meighen_bank_presenter.dto.AllCardsDto;
-import io.meighen_bank_presenter.dto.CreateCardDto;
+import io.meighen_bank_presenter.dto.BalanceDto;
+import io.meighen_bank_presenter.entity.Card;
 import io.meighen_bank_presenter.entity.User;
 import io.meighen_bank_presenter.exception.UserNotFoundExeption;
-import io.meighen_bank_presenter.service.CardService;
 import io.meighen_bank_presenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/api/cards")
-public class UserCardsController {
+@RestController
+@RequestMapping("/api/user/private")
+public class UserPrivateController {
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    CardService cardService;
+    UserService userService;
 
     private User getAuthentificatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,18 +29,15 @@ public class UserCardsController {
         return currentUser;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getCardsByUser() {
+    @GetMapping("/balance")
+    public ResponseEntity<?> getBalance() {
         User u = getAuthentificatedUser();
 
-        return ResponseEntity.ok(new AllCardsDto(u.getCards()));
-    }
+        float balance = 0;
+        for (Card c : u.getCards()) {
+            balance += c.getBalance();
+        }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createCard(@RequestBody CreateCardDto createCardDto) throws JsonProcessingException {
-        User u = getAuthentificatedUser();
-
-        cardService.createCard(createCardDto, u);
-        return ResponseEntity.ok("{\"status\":\"ok\"}");
+        return ResponseEntity.ok(new BalanceDto(balance));
     }
 }

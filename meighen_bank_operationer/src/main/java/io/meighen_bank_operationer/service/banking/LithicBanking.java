@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LithicBanking implements BankingService {
     @Value("${lithicapikey}")
-    private String apiKey;
+    private String apiKey = "fa1487da-d7c8-460f-a89c-c11a8517d535";
 
     public String createCard() throws IOException, ParseException {
         OkHttpClient client = new OkHttpClient();
