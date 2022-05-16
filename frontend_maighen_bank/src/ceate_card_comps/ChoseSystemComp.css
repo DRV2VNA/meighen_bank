@@ -1,0 +1,43 @@
+.electric {
+    background: #4d6de3;
+    color: white;
+    padding: 2px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 24px;
+    left: -2px;
+    z-index: 2;
+    transform: rotate(-45deg);
+}
+.electric:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    transform: rotate(45deg);
+    border-width: 20px 20px 0 20px;
+    border-color: #4d6de3 transparent transparent transparent;
+    position: absolute;
+    right: -27px;
+    bottom: -3px;
+}
+.electric:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    transform: rotate(-45deg);
+    border-width: 20px 20px 0 20px;
+    border-color: #4d6de3 transparent transparent transparent;
+    position: absolute;
+    left: -27px;
+    bottom: -3px;
+}
+
+.divonprelative{
+    position: relative;
+}
+
+.dispnone{
+    display: none;
+}

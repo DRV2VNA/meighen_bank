@@ -332,3 +332,7 @@ img {
 .add-card {
     width: 70px;
 }
+
+.dnn {
+    display: none;
+}

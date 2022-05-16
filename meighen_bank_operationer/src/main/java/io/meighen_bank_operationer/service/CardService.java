@@ -7,9 +7,11 @@ import java.text.SimpleDateFormat;
 
 import io.meighen_bank_operationer.entity.Card;
 import io.meighen_bank_operationer.entity.LithicCardDetails;
+import io.meighen_bank_operationer.entity.OtherCardDetail;
 import io.meighen_bank_operationer.entity.User;
 import io.meighen_bank_operationer.repository.CardRepository;
 import io.meighen_bank_operationer.repository.LithicCardDetailsRepository;
+import io.meighen_bank_operationer.repository.OtherCardDetailsRepository;
 import io.meighen_bank_operationer.repository.UserRepository;
 import io.meighen_bank_operationer.service.banking.BankingCaller;
 import okhttp3.Response;
@@ -31,7 +33,103 @@ public class CardService {
     @Autowired
     UserRepository userRepository;
 
-    public void createCard(String email) throws IOException, ParseException {
+    @Autowired
+    OtherCardDetailsRepository otherCardDetailsRepository;
+
+    public void createCard(String email, String cardSystemStr, String currency) throws IOException, ParseException {
+        int cardSystem = Integer.valueOf(cardSystemStr);
+        if (cardSystem == 1) {
+            createLithicCard(email);
+        } else if (cardSystem == 2) {
+            createVisaCard(email, currency);
+        } else if (cardSystem == 3) {
+            createMastercardCard(email, currency);
+        }
+    }
+
+    public void createMastercardCard(String email, String currency) throws IOException, ParseException {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {return new RuntimeException("User with email: " + email + " not found!");});
+
+        String response = bankingCaller.createMastercardCard();
+
+        System.out.println(response);
+
+        //System.out.println(response);
+        JSONObject obj = new JSONObject(response);
+        Card card = new Card();
+        card.setCard_number(obj.getString("cardNumber"));
+
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        card.setCreated(df1.getCalendar().getTime());
+        card.setUpdated(df1.getCalendar().getTime());
+        card.setCvv(Integer.valueOf(obj.getString("cvv")));
+        //card.setExpDate(new df1.parse(obj.getString("created")));
+        card.setExpYear(obj.getInt("expYear"));
+        card.setExpMonth(obj.getInt("expMonth"));
+        card.setExpDay(01);
+        System.out.println(obj.getString("cardNumber").substring(obj.getString("cardNumber").length() - 4));
+        card.setLastFour(obj.getString("cardNumber").substring(obj.getString("cardNumber").length() - 4));
+        card.setCardIssuerName("Mastercard");
+        card.setLithicCard(false);
+        card.setOtherCard(true);
+
+        OtherCardDetail otherCardDetail = new OtherCardDetail();
+        otherCardDetail.setLive(true);
+        otherCardDetail.setType("internal_mastercard");
+        otherCardDetail.setCountryCode("RU");
+        otherCardDetail.setScheme("MASTERCARD");
+
+        card.setOtherCardDetail(otherCardDetail);
+
+        otherCardDetailsRepository.save(otherCardDetail);
+        cardRepository.save(card);
+        user.getCards().add(card);
+        userRepository.save(user);
+
+    }
+
+    public void createVisaCard(String email, String currency) throws IOException, ParseException {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {return new RuntimeException("User with email: " + email + " not found!");});
+
+        String response = bankingCaller.createVisaCard();
+
+        System.out.println(response);
+
+        //System.out.println(response);
+        JSONObject obj = new JSONObject(response);
+        Card card = new Card();
+        card.setCard_number(obj.getString("cardNumber"));
+
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        card.setCreated(df1.getCalendar().getTime());
+        card.setUpdated(df1.getCalendar().getTime());
+        card.setCvv(Integer.valueOf(obj.getString("cvv")));
+        //card.setExpDate(new df1.parse(obj.getString("created")));
+        card.setExpYear(obj.getInt("expYear"));
+        card.setExpMonth(obj.getInt("expMonth"));
+        card.setExpDay(01);
+        System.out.println(obj.getString("cardNumber").substring(obj.getString("cardNumber").length() - 4));
+        card.setLastFour(obj.getString("cardNumber").substring(obj.getString("cardNumber").length() - 4));
+        card.setCardIssuerName("Visa");
+        card.setLithicCard(false);
+        card.setOtherCard(true);
+
+        OtherCardDetail otherCardDetail = new OtherCardDetail();
+        otherCardDetail.setLive(true);
+        otherCardDetail.setType("internal_visa");
+        otherCardDetail.setCountryCode("RU");
+        otherCardDetail.setScheme("VISA");
+
+        card.setOtherCardDetail(otherCardDetail);
+
+        otherCardDetailsRepository.save(otherCardDetail);
+        cardRepository.save(card);
+        user.getCards().add(card);
+        userRepository.save(user);
+
+    }
+
+    public void createLithicCard(String email) throws IOException, ParseException {
         User user = userRepository.findByEmail(email).orElseThrow(() -> {return new RuntimeException("User with email: " + email + " not found!");});
 
         String response = bankingCaller.createLithicCard();

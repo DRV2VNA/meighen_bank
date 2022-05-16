@@ -31,7 +31,7 @@ public class CardsConsumerService {
     private void callOperation(Map<String, String> message) throws IOException, ParseException {
         String operation = message.get("operation");
         if (Objects.equals(operation, "create_card")) {
-            cardService.createCard(message.get("email"));
+            cardService.createCard(message.get("email"), message.get("cardSystem"), message.get("currency"));
         } if (Objects.equals(operation, "change_card_status")) {
             cardService.changeCardStatus(Integer.parseInt(message.get("card_id")), message.get("status"));
         } else {

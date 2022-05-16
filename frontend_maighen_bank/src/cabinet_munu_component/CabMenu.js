@@ -19,27 +19,27 @@ class CabMenu extends Component {
             <nav className="nav">
                 <ul className="tabs">
                     <li className="tab">
-                        <button className="tab-btn tab-btn--active">
+                        <button className="tab-btn tab-btn--active" onClick = {this.props.overviewHandler}>
                             <i className="ph-lightbulb-bold"></i>
-                            <span className="tab-btn-title" onClick = {this.props.overviewHandler}>Обзор</span>
+                            <span className="tab-btn-title" >Обзор</span>
                         </button>
                     </li>
                     <li className="tab">
-                        <button className="tab-btn">
+                        <button className="tab-btn" onClick = {this.props.cardsHandler}>
                             <i className="ph-credit-card-bold"></i>
-                            <span className="tab-btn-title" onClick = {this.props.cardsHandler}>Карты</span>
+                            <span className="tab-btn-title" >Карты</span>
                         </button>
                     </li>
                     <li className="tab">
-                        <button className="tab-btn">
+                        <button className="tab-btn" onClick = {this.props.transactionsHandler}>
                             <i className="ph-arrows-left-right-bold"></i>
-                            <span className="tab-btn-title" onClick = {this.props.transactionsHandler}>Транзакции</span>
+                            <span className="tab-btn-title" >Транзакции</span>
                         </button>
                     </li>
                     <li className="tab">
-                        <button className="tab-btn">
+                        <button className="tab-btn" onClick = {this.props.accountHandler}>
                             <i className="ph-bank-bold"></i>
-                            <span className="tab-btn-title" onClick = {this.props.accountHandler}>Аккаунт</span>
+                            <span className="tab-btn-title" >Аккаунт</span>
                         </button>
                     </li>
                 </ul>

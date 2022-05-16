@@ -21,7 +21,7 @@ public class CardService {
         createCardModel.setOperation("create_card");
         createCardModel.setEmail(user.getEmail());
         createCardModel.setCurrency(createCardDto.getCurrency());
-        createCardModel.setCardSystem(createCardDto.getCardSystem());
+        createCardModel.setCardSystem(Integer.toString(createCardDto.getCardSystem()));
 
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(createCardModel);

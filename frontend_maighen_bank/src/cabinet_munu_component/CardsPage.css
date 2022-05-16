@@ -1,0 +1,13 @@
+.hid {
+    display: none;
+}
+
+.main-popup {
+    position: absolute!important;
+    width: 50%;
+    z-index: 5000;
+    background-color: #9b9b9b;
+
+    min-height: 400px;
+}
+

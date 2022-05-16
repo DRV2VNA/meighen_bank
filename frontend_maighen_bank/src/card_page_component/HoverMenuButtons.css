@@ -1,0 +1,16 @@
+.header-avatar .avatar-menu {
+    visibility: hidden;
+
+    position: absolute;
+    display: flex;
+    margin-top: 100px;
+    height: 50px;
+
+    /*background-color: rgba(77, 109, 227, 0.65);*/
+
+}
+
+.header-avatar:hover > .avatar-menu{
+    visibility: visible;
+    display: block;
+}

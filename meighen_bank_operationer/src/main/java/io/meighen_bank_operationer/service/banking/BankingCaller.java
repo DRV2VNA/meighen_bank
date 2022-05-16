@@ -26,6 +26,14 @@ public class BankingCaller{
     public void updateCardBalance(Card card) throws IOException {
         factory.createBankingService(card).getCardsDetail(card.getLithicCardDetails().getToken());
     }
+
+    public String createVisaCard() throws IOException, ParseException {
+        return factory.createInternalService().createCard();
+    }
+
+    public String createMastercardCard() throws IOException, ParseException {
+        return factory.createInternalService().createCard();
+    }
 //    public Pizza orderPizza(String type) {
 //        Pizza pizza;
 //

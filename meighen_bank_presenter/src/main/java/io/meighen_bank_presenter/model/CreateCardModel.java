@@ -11,6 +11,6 @@ public class CreateCardModel {
     protected String operation;
     protected String email;
 
-    protected int cardSystem;
+    protected String cardSystem;
     protected String currency;
 }

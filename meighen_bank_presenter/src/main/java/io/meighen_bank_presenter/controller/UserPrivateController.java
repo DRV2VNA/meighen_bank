@@ -40,4 +40,10 @@ public class UserPrivateController {
 
         return ResponseEntity.ok(new BalanceDto(balance));
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<?> getUserPrivateInfo() {
+        User u = getAuthentificatedUser();
+        return ResponseEntity.ok(userService.convertUserToUserDto(u));
+    }
 }

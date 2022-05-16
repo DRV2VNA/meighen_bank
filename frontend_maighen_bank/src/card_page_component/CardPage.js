@@ -5,20 +5,24 @@ import CabMenu from '../cabinet_munu_component/CabMenu';
 import './CardPageCss.css';
 import TransactionsComp from "../cabinet_munu_component/TransactionsComp";
 import BCard from "../cabinet_munu_component/Card";
-import CardsPage from "../cabinet_munu_component/CardsComponent";
+import CardsPage from "../cabinet_munu_component/CardsPage";
 import AuthElement from "../auth_element/AuthElement";
 import Login from "../login_component/Login";
 import {Slide} from "@material-ui/core";
 import CreateCard from "../cabinet_munu_component/CreateCardComp";
-
+import {Cookies} from "react-cookie";
+import './HoverMenuButtons.css';
 
 class CardPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username : "username",
+            createcardtab: false,
             currentDayState: "Добрый день",
             isTranactions: false,
+            userBalance: '-',
+            overviewhidden: "",
             code: props.code ? props.code : '999',
             description: props.description ? props.description : 'Unknown error'
         }
@@ -27,32 +31,85 @@ class CardPage extends Component {
         this.transactionsHandler = this.transactionsHandler.bind(this);
         this.cardsHandler = this.cardsHandler.bind(this);
         this.accountHandler = this.accountHandler.bind(this);
+        this.showAddCards = this.showAddCards.bind(this);
+        this.exitHandle = this.exitHandle.bind(this);
     }
 
     overviewHandler() {
         this.setState({
-            currentPage: "overview"
+            currentPage: "overview",
+            overviewhidden: ""
         })
     }
 
     transactionsHandler() {
         this.setState({
-            currentPage: "tranactions"
+            currentPage: "tranactions",
+            overviewhidden: "hid"
         })
     }
 
     cardsHandler() {
         this.setState({
-            currentPage: "cards"
+            currentPage: "cards",
+            overviewhidden: "hid"
         })
     }
 
     accountHandler() {
         this.setState({
-            currentPage: "account"
+            currentPage: "account",
+            overviewhidden: "hid"
         })
     }
 
+    showAddCards() {
+        // console.log(22)
+        this.setState({
+            createcardtab:!this.state.createcardtab
+        })
+    }
+
+    async getBalance() {
+        const cookies = new Cookies();
+        let a = cookies.get('accessToken');
+        let r = cookies.get('refreshToken');
+        let b = cookies.get('username');
+
+        return await fetch('/api/user/private/balance', {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': 'Bearer ' + a,
+                'Content-Type': 'application/json'
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                //throw new Error('Network response was not OK');
+                return '-';
+            }
+
+            return response.json();
+        });
+    }
+
+    exitHandle() {
+        const cookies = new Cookies();
+        cookies.remove('accessToken');
+        cookies.remove('refreshToken');
+        cookies.remove('username');
+        window.location = '/';
+    }
+
+    async componentDidMount() {
+        const cookies = new Cookies();
+        let a = cookies.get('accessToken');
+        let r = cookies.get('refreshToken');
+        let b = cookies.get('username');
+
+        let balance = await this.getBalance();
+        console.log("balance", balance)
+        this.setState({userBalance: balance.balance, username: b});
+    }
 
     render() {
         const {code, description} = this.state;
@@ -83,6 +140,9 @@ class CardPage extends Component {
                             {/*<span className="header-avatar-img"></span>*/}
                             <img  className="header-avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png" />
                             <span className="header-avatar-name">{this.state.username}</span>
+                            <div className="avatar-menu">
+                                <button onClick={this.exitHandle}>Выход</button>
+                            </div>
                         </button>
                     </div>
                 </header>
@@ -92,10 +152,10 @@ class CardPage extends Component {
                     />
 
                     <div className="content">
-                        <div className="content-header">
+                        <div className={"content-header " + this.state.overviewhidden}>
                             <div className="content-header-inner">
                                 <h1 className="content-header-title">{this.state.currentDayState}, {this.state.username}. <br/>
-                                     Ваш баланс: <small>$24,920.565464</small>
+                                     Ваш баланс: <small>{this.state.userBalance}</small>
                                 </h1>
                             </div>
                             <div className="content-header-illustration">
@@ -105,7 +165,7 @@ class CardPage extends Component {
                         <div className="content-body">
                             {/*<TransactionsComp />*/}
                             {(this.state.currentPage=="tranactions") ? <TransactionsComp /> : ""}
-                            {(this.state.currentPage=="cards") ? <CardsPage /> : ""}
+                            {(this.state.currentPage=="cards") ? <CardsPage togger={this.showAddCards}/> : ""}
 
                             {/*<CardPage />*/}
                             {/*<div className="bcard">*/}
@@ -118,11 +178,11 @@ class CardPage extends Component {
                     </div>
                 </main>
 
-                <Slide direction="down" in={1} mountOnEnter unmountOnExit>
-                    <div className="pabs d-flex justify-content-center align-items-center">
-                        <CreateCard />
-                    </div>
-                </Slide>
+                <div className="pabs d-flex justify-content-center align-items-center">
+                    <Slide direction="down" in={this.state.createcardtab} mountOnEnter unmountOnExit>
+                        <CreateCard closer={this.showAddCards}/>
+                    </Slide>
+                </div>
             </div>
         );
     }

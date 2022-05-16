@@ -11,7 +11,7 @@ public class BankingFactory {
         if (card.isLithicCard()) {
             bankingService = new LithicBanking();
         } else if (card.isOtherCard()) {
-            //bankingService = new OtherBanking();
+            bankingService = new InternalBankingVisa();
         }
 
         return bankingService;
@@ -19,5 +19,9 @@ public class BankingFactory {
 
     public BankingService createLithicService() {
         return new LithicBanking();
+    }
+
+    public BankingService createInternalService() {
+        return new InternalBankingVisa();
     }
 }

@@ -17,7 +17,7 @@ public class restfull {
 
     @GetMapping("/generate")
     public ResponseEntity<?> generate(@RequestParam String email) throws IOException, ParseException {
-        cardService.createCard(email);
+        cardService.createCard(email, "Lithic", "10");
         return ResponseEntity.ok("ok");
     }
 
