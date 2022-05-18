@@ -17,11 +17,13 @@ import io.meighen_bank_operationer.repository.CardStatusRepository;
 import io.meighen_bank_operationer.repository.OtherCardDetailsRepository;
 import net.andreinc.mockneat.MockNeat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
 import static net.andreinc.mockneat.types.enums.CreditCardType.VISA_16;
 
 @Service
+@Configurable
 public class InternalBankingVisa implements BankingService {
     @Autowired
     CardRepository cardRepository;
@@ -48,7 +50,7 @@ public class InternalBankingVisa implements BankingService {
         Date d = df1.getCalendar().getTime();
 
         cardDto.setExpDate(d.toString());
-        cardDto.setExpYear(d.getYear());
+        cardDto.setExpYear(d.getYear() + 2000);
         cardDto.setExpMonth(d.getMonth());
         cardDto.setExpDay(d.getDay());
 
@@ -63,7 +65,7 @@ public class InternalBankingVisa implements BankingService {
     public void changeCardState(Card card, String state) throws IOException {
         if (!(state.equals("CLOSED") || state.equals("OPEN") || state.equals("PAUSED"))) {return;}
 
-        Card c = cardRepository.findCardByCard_number(card.getCard_number());
+        Card c = cardRepository.findCardByCard_number(card.getCard_number()).get();
         OtherCardDetail otherCardDetails = card.getOtherCardDetail();
 
         if (state.equals("CLOSED")) {
@@ -84,5 +86,21 @@ public class InternalBankingVisa implements BankingService {
         return null;
     }
 
+    public boolean subtractMoney(Card card, Double ammount) {
+        if (card.getBalance() > ammount) {
+            card.setBalance(card.getBalance() - ammount);
+            cardRepository.save(card);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean getMoney(Card card, Double ammount){
+        card.setBalance(card.getBalance() + ammount);
+        cardRepository.save(card);
+
+        return true;
+    }
 
 }

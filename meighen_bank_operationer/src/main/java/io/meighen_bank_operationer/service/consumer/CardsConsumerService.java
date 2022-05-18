@@ -32,8 +32,11 @@ public class CardsConsumerService {
         String operation = message.get("operation");
         if (Objects.equals(operation, "create_card")) {
             cardService.createCard(message.get("email"), message.get("cardSystem"), message.get("currency"));
-        } if (Objects.equals(operation, "change_card_status")) {
+        } else if (Objects.equals(operation, "change_card_status")) {
             cardService.changeCardStatus(Integer.parseInt(message.get("card_id")), message.get("status"));
+        } else if (Objects.equals(operation, "internal_transaction")) {
+            cardService.performTransaction(message.get("from"), message.get("to"), message.get("type"),
+                    message.get("email"), message.get("ammount"), message.get("fromcvv"), message.get("fromvaliddate"));
         } else {
             System.out.println("Error! Not correct message. Reason: no operation known! " + message);
         }

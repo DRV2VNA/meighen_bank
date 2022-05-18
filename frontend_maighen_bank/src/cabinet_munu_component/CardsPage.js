@@ -5,6 +5,21 @@ import {Cookies} from "react-cookie";
 import './CardsPage.css';
 import CardInfoPanel from "./CardInfoPanel";
 
+const logoIds = [
+    {
+        name : "Visa",
+        number : 1
+    },
+    {
+        name : "Mastercard",
+        number : 2
+    },
+    {
+        name : "Lithic",
+        number : 3
+    }
+]
+
 class CardsPage extends Component {
     constructor(props) {
         super(props);
@@ -58,17 +73,19 @@ class CardsPage extends Component {
         for(let i = 0; i < trcards.length ; ++i) {
             let vt = ("0" + trcards[i].expMonth).slice(-2) + '/' + trcards[i].expYear.toString().substr(-2);
             console.log("vt=",vt);
+            let cursys = logoIds[logoIds.findIndex(x => x.name == trcards[i].cardIssuerName)].number;
+            console.log("cssy=", cursys)
 
             if (i <= cnt) {
                 arrc.push(
                     <div className="bcard">
-                        <BCard last_four={trcards[i].lastFour} validthru={vt} name={trcards[i].cardIssuerName}/>
+                        <BCard cvv={trcards[i].cvv} logo_id={cursys} last_four={trcards[i].card_number} validthru={vt} name={trcards[i].cardIssuerName} balance={trcards[i].balance}/>
                     </div>
                 );
             } else {
                 brrc.push(
                     <div className="bcard">
-                        <BCard last_four={trcards[i].lastFour} validthru={vt} name={trcards[i].cardIssuerName}/>
+                        <BCard logo_id={cursys} last_four={trcards[i].card_number} validthru={vt} name={trcards[i].cardIssuerName} balance={trcards[i].balance}/>
                     </div>
                 );
             }
@@ -131,6 +148,7 @@ class CardsPage extends Component {
                             {this.state.cards}
 
                             {/*<CardInfoPanel last_four="4558" validthru="05/12" name="visa"/>*/}
+
 
                         </div>
                             {/*<div className="list-item-transaction">*/}

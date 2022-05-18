@@ -194,17 +194,19 @@ class SignUP extends Component {
             <div className="container">
                 <div className="body d-md-flex align-items-center justify-content-between">
                     <div className="box-1 mt-md-0 mt-5">
-                        <div className="mlogo">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="nnn">
-                                <symbol id="meighen" viewBox="0 0 118 94">
-                                    <title>Meighen</title>
-                                    <path fill-rule="evenodd" fill="#4d6de3" clip-rule="evenodd" d="M 19.4 61.4 l 36.379 0 l -18.1894 -41.0132 l -18.1896 41.0132 z m 42.5954 -42.4 l 18.8046 42.4 l -37.6092 0 l 18.8046 -42.4 z"></path>
-                                </symbol>
-                            </svg>
-                            <svg className="bi me-2" width="100" height="100" role="img" aria-label="Bootstrap">
-                                <use xlinkHref="#meighen"></use>
-                            </svg>
-                        </div>
+                        <a href="/">
+                            <div className="mlogo">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="nnn">
+                                    <symbol id="meighen" viewBox="0 0 118 94">
+                                        <title>Meighen</title>
+                                        <path fill-rule="evenodd" fill="#4d6de3" clip-rule="evenodd" d="M 19.4 61.4 l 36.379 0 l -18.1894 -41.0132 l -18.1896 41.0132 z m 42.5954 -42.4 l 18.8046 42.4 l -37.6092 0 l 18.8046 -42.4 z"></path>
+                                    </symbol>
+                                </svg>
+                                <svg className="bi me-2" width="100" height="100" role="img" aria-label="Bootstrap">
+                                    <use xlinkHref="#meighen"></use>
+                                </svg>
+                            </div>
+                        </a>
                         <img src="https://i.pinimg.com/originals/a5/bc/e4/a5bce4af1bed6ee9fa0c30577adcc83a.jpg"
                              className="" alt="" /></div>
                     <div className=" box-2 d-flex flex-column h-100">

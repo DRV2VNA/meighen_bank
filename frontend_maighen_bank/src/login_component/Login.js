@@ -77,6 +77,7 @@ async function loginUser(credentials) { //credentials as param
 
 }
 
+
 // async function CookiesWork(access, refresh) {
 //     const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
 //
@@ -106,6 +107,7 @@ class Login extends Component {
         this.state = {
             _email: '',
             _password: '',
+            remme: false,
             logerr:"nnn"
         };
 
@@ -114,6 +116,28 @@ class Login extends Component {
         //const [token, setToken] = useState();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async getUserInfo() {
+        const cookies = new Cookies();
+        let a = cookies.get('accessToken');
+        let r = cookies.get('refreshToken');
+        let b = cookies.get('username');
+
+        return await fetch('/api/user/private/info', {
+            method: 'get',
+            headers: new Headers({
+                'Authorization': 'Bearer ' + a,
+                'Content-Type': 'application/json'
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                //throw new Error('Network response was not OK');
+                return '-';
+            }
+
+            return response.json();
+        });
     }
 
 
@@ -204,13 +228,22 @@ class Login extends Component {
         if (token.accessToken) {
             const cookies = new Cookies();
             cookies.set('accessToken', token.accessToken, {path: '/'});
-            cookies.set('refreshToken', token.refreshToken, {path: '/'});
+            if (this.state.remme) {
+                cookies.set('refreshToken', token.refreshToken, {path: '/'});
+            } else {
+                cookies.set('refreshToken', "", {path: '/'});
+            }
             cookies.set('username', token.username, {path: '/'});
 
+            let usr = await this.getUserInfo();
+            cookies.set('fname', usr.firstName, {path: '/'});
+            cookies.set('lname', usr.secondName, {path: '/'});
+            console.log(usr);
             //history.push('/');
             // this.context.router.history.push('/');
             // this.props.history.push("/");
             // window.open("/insert/your/path/here");
+
             window.location = '/';
         }
         // console.log(cookies.get('accessToken'));
@@ -234,17 +267,19 @@ class Login extends Component {
                 <div className="container">
                     <div className="body d-md-flex align-items-center justify-content-between">
                         <div className="box-1 mt-md-0 mt-5">
-                            <div className="mlogo">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="nnn">
-                                    <symbol id="meighen" viewBox="0 0 118 94">
-                                        <title>Meighen</title>
-                                        <path fill-rule="evenodd" fill="#4d6de3" clip-rule="evenodd" d="M 19.4 61.4 l 36.379 0 l -18.1894 -41.0132 l -18.1896 41.0132 z m 42.5954 -42.4 l 18.8046 42.4 l -37.6092 0 l 18.8046 -42.4 z"></path>
-                                    </symbol>
-                                </svg>
-                                <svg className="bi me-2" width="100" height="100" role="img" aria-label="Bootstrap">
-                                    <use xlinkHref="#meighen"></use>
-                                </svg>
-                            </div>
+                            <a href="/">
+                                <div className="mlogo">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="nnn">
+                                        <symbol id="meighen" viewBox="0 0 118 94">
+                                            <title>Meighen</title>
+                                            <path fill-rule="evenodd" fill="#4d6de3" clip-rule="evenodd" d="M 19.4 61.4 l 36.379 0 l -18.1894 -41.0132 l -18.1896 41.0132 z m 42.5954 -42.4 l 18.8046 42.4 l -37.6092 0 l 18.8046 -42.4 z"></path>
+                                        </symbol>
+                                    </svg>
+                                    <svg className="bi me-2" width="100" height="100" role="img" aria-label="Bootstrap">
+                                        <use xlinkHref="#meighen"></use>
+                                    </svg>
+                                </div>
+                            </a>
                             <img src="https://i.pinimg.com/originals/a5/bc/e4/a5bce4af1bed6ee9fa0c30577adcc83a.jpg"
                             className="" alt="" /></div>
                         <div className=" box-2 d-flex flex-column h-100">
@@ -289,9 +324,12 @@ class Login extends Component {
                                             autoComplete="current-password"
                                         />
                                         <FormControlLabel
-                                            control={<Checkbox value="remember" color="primary" />}
+                                            control={<Checkbox value="remember" name="remme" onClick={() => {
+                                                this.setState({remme: !this.state.remme});
+                                            }} color="primary" />}
                                             label="Запомнить меня"
                                         />
+
                                         <div className={"align-items-center justify-content-center errcnt " + logerr}>
                                             <p className="errtxt">Неверный логин или пароль!</p>
                                         </div>

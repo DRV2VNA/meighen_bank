@@ -66,4 +66,11 @@ public class CardsProducer {
         Producer<String, String> producer = new KafkaProducer<>(props);
         producer.send(new ProducerRecord<>(topic, Integer.toString(1), message));
     }
+
+    public void doTransaction(String message) {
+        System.out.println("Producing the message: " + message);
+        //kafkaTemplate.send("leaj4m20-banking-main", message);
+
+        produce(message);
+    }
 }

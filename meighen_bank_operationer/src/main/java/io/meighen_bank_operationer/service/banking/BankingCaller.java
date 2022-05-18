@@ -5,10 +5,12 @@ import java.text.ParseException;
 
 import io.meighen_bank_operationer.entity.Card;
 import okhttp3.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BankingCaller{
+    @Autowired
     BankingFactory factory;
 
     public BankingCaller() {
@@ -28,12 +30,21 @@ public class BankingCaller{
     }
 
     public String createVisaCard() throws IOException, ParseException {
-        return factory.createInternalService().createCard();
+        return factory.createInternalServiceVisa().createCard();
     }
 
     public String createMastercardCard() throws IOException, ParseException {
-        return factory.createInternalService().createCard();
+        return factory.createInternalServiceMastercard().createCard();
     }
+
+    public boolean subtractMoney(Card card, Double ammount) {
+        return factory.createBankingService(card).subtractMoney(card, ammount);
+    }
+
+    public boolean addMoney(Card card, Double ammount) {
+        return factory.createBankingService(card).getMoney(card, ammount);
+    }
+
 //    public Pizza orderPizza(String type) {
 //        Pizza pizza;
 //

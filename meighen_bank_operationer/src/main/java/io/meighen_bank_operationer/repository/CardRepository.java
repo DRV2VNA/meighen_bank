@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CardRepository extends JpaRepository<Card, Long> {
     @Query("select c from Card c where c.card_number = ?1")
-    Card findCardByCard_number(String card_num);
+    Optional<Card> findCardByCard_number(String card_num);
 }

@@ -1,0 +1,21 @@
+.my_oper_chose {
+    width: 150px;
+    height: 100px;
+    padding: 5px;
+    background-color: rgba(77, 109, 227, 0.37);
+
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.my_oper_chose:hover {
+    background-color: rgba(77, 109, 227, 0.64);
+}
+
+.my_oper_chose > img {
+    width: 60px;
+}
+
+.my_oper {
+
+}

@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import io.meighen_bank_presenter.dto.CreateCardDto;
+import io.meighen_bank_presenter.dto.TransactionDto;
+import io.meighen_bank_presenter.entity.Card;
 import io.meighen_bank_presenter.entity.User;
 import io.meighen_bank_presenter.model.CreateCardModel;
 import io.meighen_bank_presenter.model.KafkaMsg;
+import io.meighen_bank_presenter.model.TransactionModel;
 import io.meighen_bank_presenter.service.producer.CardsProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +30,22 @@ public class CardService {
         String json = ow.writeValueAsString(createCardModel);
         System.out.println(json);
         cardsProducer.createCard(json);
+    }
+
+    public void doIntCardTransaction(TransactionDto transactionDto, User user) throws JsonProcessingException {
+        TransactionModel transactionModel = new TransactionModel();
+        transactionModel.setAmmount(transactionDto.getAmmount());
+        transactionModel.setEmail(user.getEmail());
+        transactionModel.setOperation("internal_transaction");
+        transactionModel.setType("00");
+        transactionModel.setFrom(transactionDto.getCardFrom());
+        transactionModel.setTo(transactionDto.getCardTo());
+        transactionModel.setFromcvv(transactionDto.getCardFromCVV());
+        transactionModel.setFromvaliddate(transactionDto.getCardFromExpDate());
+
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(transactionModel);
+        System.out.println(json);
+        cardsProducer.doTransaction(json);
     }
 }

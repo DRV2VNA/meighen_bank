@@ -1,5 +1,5 @@
 .hid {
-    display: none;
+    display: none !important;
 }
 
 .main-popup {
@@ -11,3 +11,168 @@
     min-height: 400px;
 }
 
+
+.cc {
+height: 220px;
+width: 350px;
+position: relative;
+background: #6c7cff;
+border-radius: 30px;
+color: #fff;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.back {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+}
+
+.flipped {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.cc__front {
+display: flex;
+flex-direction: column;
+align-items: left;
+padding: 24px 38px 38px;
+}
+.cc__brand {
+display: flex;
+align-items: center;
+margin-bottom: 40px;
+    justify-content: space-between;
+}
+.cc__brand-logo {
+display: flex;
+}
+.cc__logo-circle {
+width: 30px;
+height: 30px;
+background: #fff;
+display: block;
+border-radius: 50%;
+position: relative;
+}
+.cc__logo-circle--left {
+opacity: 0.5;
+}
+.cc__logo-circle--right {
+left: -10px;
+opacity: 0.3;
+}
+.cc__brand-text {
+font-size: 17px;
+margin-left: 5px;
+}
+.cc__number {
+display: flex;
+align-items: center;
+/*margin-bottom: 20px;*/
+}
+.cc__number-dot {
+width: 5px;
+height: 5px;
+border-radius: 50%;
+background: #fff;
+display: inline-block;
+margin-right: 4px;
+}
+.cc__digits {
+font-size: 20px;
+margin-left: 10px;
+}
+.cc__balance-text {
+font-weight: 600;
+font-size: 36px;
+}
+.cc__settings {
+width: 100%;
+height: 100%;
+background: #4c5be8;
+border-radius: 30px;
+position: absolute;
+top: 0;
+display: flex;
+justify-content: space-between;
+padding: 22px 10px;
+/*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L320.261415,228.834835 C320.261415,219.284137 320.261415,209.299312 320.261415,198.880359 C320.261415,186.645109 320.261415,149.508543 320.261415,110 C320.261415,70.4914571 320.261415,43.8454079 320.261415,21.9752985 C320.261415,3.85122438 320.261415,-7.69033824 320.261415,-12.6493894 L387.118151,-12.6493894 Z');*/
+}
+.cc__settings--active {
+    animation: showSettings 2s ease-in-out forwards;
+}
+.cc__settings--hidden {
+    /*clip-path: path('M387.118151,0.160365095 L387.118151,221.215264 L316.529346,221.215264 C117.007895,237.0198 17.2471697,237.0198 17.2471697,221.215264 C17.2471697,181.988409 17.2471697,133.22115 17.2471697,110 C17.2471697,86.7788496 17.2471697,27.7576259 17.2471697,-6.39488462e-14 C17.2471697,-16.3318577 117.007895,-16.2784027 316.529346,0.160365095 L387.118151,0.160365095 Z');*/
+    animation: hideSettings 2s ease-in-out forwards;
+}
+.cc__settings-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 32px;
+}
+.cc__settings-menu-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.cc__settings-menu-item-icon {
+    display: flex;
+    padding: 4px 6px;
+    background: #5f6ff6;
+    border-radius: 7px;
+    margin-right: 15px;
+}
+.cc__settings-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.icon {
+    fill: #fff;
+}
+.apple-pay-icon {
+    transform: rotate(-90deg);
+}
+.gear-icon {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 1.5s;
+}
+.gear-icon.active {
+    opacity: 1;
+}
+@keyframes showSettings {
+    25% {
+        /*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L326.156587,228.834835 C316.225565,222.276395 309.894513,217.352564 307.16343,214.063341 C298.576801,203.721899 122.1888,208.462135 122.1888,108.204535 C122.1888,7.94693437 294.206316,25.6769042 315.855488,6.20473783 C320.120314,2.36877547 323.554014,-3.91593359 326.156587,-12.6493894 L387.118151,-12.6493894 Z');*/
+    }
+    50% {
+        /*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L48.4642624,238.145348 C18.8858367,241.43457 2.73108257,241.43457 6.66133815e-15,238.145348 C-8.58662882,227.803906 18.4317885,204.651574 18.4317885,104.393974 C18.4317885,4.13637332 -13.6376238,0.776583538 8.01154821,-18.6955828 C12.2763746,-22.5315451 25.7606127,-20.5161473 48.4642624,-12.6493894 L387.118151,-12.6493894 Z');*/
+    }
+    65%, 100% {
+        /*clip-path: path('M387.118151,0.160365095 L387.118151,221.215264 L316.529346,221.215264 C117.007895,237.0198 17.2471697,237.0198 17.2471697,221.215264 C17.2471697,181.988409 17.2471697,133.22115 17.2471697,110 C17.2471697,86.7788496 17.2471697,27.7576259 17.2471697,-6.39488462e-14 C17.2471697,-16.3318577 117.007895,-16.2784027 316.529346,0.160365095 L387.118151,0.160365095 Z');*/
+    }
+}
+@keyframes hideSettings {
+    25% {
+        /*clip-path: path('M387.118151,0.160365095 L387.118151,221.215264 L316.529346,221.215264 C100.704923,235.24635 -4.80485907,234.841262 1.15518706e-13,220 C12.4189217,181.640401 18.8873389,174.136909 17.2471697,110 C15.6070006,45.8630911 13.7675117,26.4098973 1.04860565e-13,0.160365095 C-6.27713368,-11.8077978 99.2326483,-11.8077978 316.529346,0.160365095 L387.118151,0.160365095 Z');*/
+    }
+    55% {
+        /*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L243.77087,228.834835 C216.843505,221.535077 202.014282,216.240588 199.283199,212.951365 C190.69657,202.609923 14.0082036,210.2576 14.0082036,110 C14.0082036,9.74239964 184.417555,28.4484097 208.443623,13.7028253 C213.730293,10.4582224 224.482747,1.6741509 240.700984,-12.6493894 L387.118151,-12.6493894 Z');*/
+    }
+    80% {
+        /*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L315.554768,228.834835 C317.523992,218.414953 319.092875,208.430128 320.261415,198.880359 C321.744382,186.760968 330.890906,150.167879 333.898886,110 C336.906867,69.8321206 320.261415,43.8454079 320.261415,21.9752985 C320.261415,3.85122438 318.692532,-7.69033824 315.554768,-12.6493894 L387.118151,-12.6493894 Z');*/
+    }
+    100% {
+        /*clip-path: path('M387.118151,-12.6493894 L387.118151,228.834835 L320.261415,228.834835 C320.261415,219.284137 320.261415,209.299312 320.261415,198.880359 C320.261415,186.645109 320.261415,149.508543 320.261415,110 C320.261415,70.4914571 320.261415,43.8454079 320.261415,21.9752985 C320.261415,3.85122438 320.261415,-7.69033824 320.261415,-12.6493894 L387.118151,-12.6493894 Z');*/
+    }
+}
+
+.dribbble-link {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}

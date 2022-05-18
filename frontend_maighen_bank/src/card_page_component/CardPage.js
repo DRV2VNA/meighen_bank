@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Header from "../header/Header";
 import CabMenu from '../cabinet_munu_component/CabMenu';
 import './CardPageCss.css';
-import TransactionsComp from "../cabinet_munu_component/TransactionsComp";
+import TransactionsComp from "../transactions_component/TransactionsComp";
 import BCard from "../cabinet_munu_component/Card";
 import CardsPage from "../cabinet_munu_component/CardsPage";
 import AuthElement from "../auth_element/AuthElement";
@@ -23,6 +23,8 @@ class CardPage extends Component {
             isTranactions: false,
             userBalance: '-',
             overviewhidden: "",
+            fnm: "Пользователь",
+            lnm: "",
             code: props.code ? props.code : '999',
             description: props.description ? props.description : 'Unknown error'
         }
@@ -97,6 +99,10 @@ class CardPage extends Component {
         cookies.remove('accessToken');
         cookies.remove('refreshToken');
         cookies.remove('username');
+
+        cookies.remove('fname');
+        cookies.remove('lname');
+
         window.location = '/';
     }
 
@@ -106,9 +112,12 @@ class CardPage extends Component {
         let r = cookies.get('refreshToken');
         let b = cookies.get('username');
 
+        let fn = cookies.get('fname');
+        let ln = cookies.get('lname');
+
         let balance = await this.getBalance();
         console.log("balance", balance)
-        this.setState({userBalance: balance.balance, username: b});
+        this.setState({userBalance: balance.balance, username: b, fnm : fn, lnm:ln});
     }
 
     render() {
@@ -139,7 +148,7 @@ class CardPage extends Component {
                         <button className="header-avatar">
                             {/*<span className="header-avatar-img"></span>*/}
                             <img  className="header-avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png" />
-                            <span className="header-avatar-name">{this.state.username}</span>
+                            <span className="header-avatar-name">{this.state.fnm + " " + this.state.lnm}</span>
                             <div className="avatar-menu">
                                 <button onClick={this.exitHandle}>Выход</button>
                             </div>
@@ -154,8 +163,8 @@ class CardPage extends Component {
                     <div className="content">
                         <div className={"content-header " + this.state.overviewhidden}>
                             <div className="content-header-inner">
-                                <h1 className="content-header-title">{this.state.currentDayState}, {this.state.username}. <br/>
-                                     Ваш баланс: <small>{this.state.userBalance}</small>
+                                <h1 className="content-header-title">{this.state.currentDayState}, <i>{this.state.fnm + " " + this.state.lnm}</i>. <br/><br/>
+                                     Ваш баланс: <small> ₽ {this.state.userBalance}</small>
                                 </h1>
                             </div>
                             <div className="content-header-illustration">

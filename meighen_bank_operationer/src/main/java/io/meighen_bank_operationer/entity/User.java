@@ -90,6 +90,10 @@ public class User extends BaseEntity{
     @OneToMany
     protected List<Card> cards;
 
+    @OneToMany
+    protected List<Transaction> userTransactions;
+
+
     /**
      * Instantiates a new User.
      *

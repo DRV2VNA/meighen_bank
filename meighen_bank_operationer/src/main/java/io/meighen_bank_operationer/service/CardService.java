@@ -4,15 +4,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 
-import io.meighen_bank_operationer.entity.Card;
-import io.meighen_bank_operationer.entity.LithicCardDetails;
-import io.meighen_bank_operationer.entity.OtherCardDetail;
-import io.meighen_bank_operationer.entity.User;
-import io.meighen_bank_operationer.repository.CardRepository;
-import io.meighen_bank_operationer.repository.LithicCardDetailsRepository;
-import io.meighen_bank_operationer.repository.OtherCardDetailsRepository;
-import io.meighen_bank_operationer.repository.UserRepository;
+import io.meighen_bank_operationer.entity.*;
+import io.meighen_bank_operationer.repository.*;
 import io.meighen_bank_operationer.service.banking.BankingCaller;
 import okhttp3.Response;
 import org.json.JSONObject;
@@ -35,6 +31,9 @@ public class CardService {
 
     @Autowired
     OtherCardDetailsRepository otherCardDetailsRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
 
     public void createCard(String email, String cardSystemStr, String currency) throws IOException, ParseException {
         int cardSystem = Integer.valueOf(cardSystemStr);
@@ -138,7 +137,7 @@ public class CardService {
         //System.out.println(response);
         JSONObject obj = new JSONObject(response);
         Card card = new Card();
-        card.setCard_number(obj.getString("token"));
+        card.setCard_number(obj.getString("pan"));
 
         DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         card.setCreated(df1.parse(obj.getString("created")));
@@ -180,5 +179,79 @@ public class CardService {
     public void updateCardBalance(Long card_id) throws IOException {
         Card card = cardRepository.findById(card_id).orElseThrow(() -> {return new RuntimeException("Card not found!");});
         bankingCaller.updateCardBalance(card);
+    }
+
+    public void performTransaction(String from, String to, String type, String email, String ammount, String fromCVV, String fromDate) {
+        Card cardFrom = cardRepository.findCardByCard_number(from).orElseThrow(() -> {return new RuntimeException("Card not found!");});
+//        Card cardTo = cardRepository.findCardByCard_number(to).orElseThrow(() -> {return new RuntimeException("Card not found!");});
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {return new RuntimeException("User with email: " + email + " not found!");});
+
+        System.out.println(cardFrom.getCvv());
+        System.out.println(String.valueOf(cardFrom.getExpMonth())+"/"+String.valueOf(cardFrom.getExpYear()).substring(2,4));
+        System.out.println(String.valueOf(cardFrom.getExpMonth()).length()==2);
+        String adder = (String.valueOf(cardFrom.getExpMonth()).length()==2?"":"0");
+        System.out.println(adder+String.valueOf(cardFrom.getExpMonth())+"/"+String.valueOf(cardFrom.getExpYear()).substring(2,4));
+        System.out.println(cardFrom.getCvv() == Integer.valueOf(fromCVV));
+        System.out.println( (adder+String.valueOf(cardFrom.getExpMonth())+"/"+String.valueOf(cardFrom.getExpYear()).substring(2,4)).equals(fromDate) );
+        if (!(cardFrom.getCvv() == Integer.valueOf(fromCVV) &&
+                (adder+String.valueOf(cardFrom.getExpMonth())+"/"+String.valueOf(cardFrom.getExpYear()).substring(2,4)).equals(fromDate) )) {
+            return;
+        }
+
+        if(type.equals("00")) {
+            System.out.println("Perform!");
+            doTransferToCard(cardFrom, to, user, Double.valueOf(ammount));
+        }
+    }
+
+    public void doTransferToCard(Card from, String to, User user, Double ammaunt) {
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+        Transaction transaction = new Transaction();
+        Date date0 = new Date();
+        transaction.setOpened(date0 );
+
+        Card cardTo = new Card();
+        try {
+            cardTo = cardRepository.findCardByCard_number(to).orElseThrow(() -> {return new RuntimeException("Card not found!");});
+        } catch (Exception e) {
+            transaction.setAmmount(ammaunt);
+            transaction.setCompleted(false);
+            Date date = new Date();
+            transaction.setPerformed(date);
+            transaction.setAccountOpened(user.getId());
+            transaction.setSendFrom(from.getCard_number());
+            transaction.setSendTo(to);
+            transaction.setTType("00");
+            transaction.setTFromSource("CARD");
+            transaction.setTToSource("CARD");
+
+            transactionRepository.save(transaction);
+            return;
+        }
+
+        System.out.println(from);
+        System.out.println(to);
+
+        boolean trstatus = false;
+        if (bankingCaller.subtractMoney(from, ammaunt)) {
+            if (bankingCaller.addMoney(cardTo, ammaunt)) {
+                trstatus = true;
+            }
+        }
+
+        transaction.setAmmount(ammaunt);
+        transaction.setCompleted(trstatus);
+        Date date = new Date();
+        transaction.setPerformed(date);
+        transaction.setAccountOpened(user.getId());
+        transaction.setSendFrom(from.getCard_number());
+        transaction.setSendTo(cardTo.getCard_number());
+        transaction.setTType("00");
+        transaction.setTFromSource("CARD");
+        transaction.setTToSource("CARD");
+
+        transactionRepository.save(transaction);
     }
 }

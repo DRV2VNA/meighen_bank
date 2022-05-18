@@ -68,5 +68,23 @@ public class LithicBanking implements BankingService {
         return response.body().string();
     }
 
+    public boolean subtractMoney(Card card, Double ammount) {
+//        if (card.getBalance() > ammount) {
+//            card.setBalance(card.getBalance() - ammount);
+//            cardRepository.save(card);
+//            return true;
+//        } else {
+//            return false;
+//        }
+        return false;
+    }
+
+
+    public boolean getMoney(Card card, Double ammount){
+//        card.setBalance(card.getBalance() + ammount);
+//        cardRepository.save(card);
+
+        return false;
+    }
 
 }
