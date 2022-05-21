@@ -57,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(PRIVATE_USERS_ENDPOINT).hasAnyRole("USER", "ADMIN")
                     .antMatchers("/api/user/public").permitAll()
                     .antMatchers("/api/private/check_auth").hasAnyRole("USER", "ADMIN")
+                    .antMatchers("/spring-security-rest/api/v2/api-docs").permitAll()
+//                    .antMatchers("/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

@@ -44,17 +44,4 @@ public class BankingCaller{
     public boolean addMoney(Card card, Double ammount) {
         return factory.createBankingService(card).getMoney(card, ammount);
     }
-
-//    public Pizza orderPizza(String type) {
-//        Pizza pizza;
-//
-//        pizza = factory.createPizza(type);
-//
-//        pizza.prepare();
-//        pizza.bake();
-//        pizza.cut();
-//        pizza.box();
-//
-//        return pizza;
-//    }
 }
